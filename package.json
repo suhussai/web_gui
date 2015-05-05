@@ -15,5 +15,13 @@
   "bugs": {
     "url": "https://github.com/arvpUofA/web_gui/issues"
   },
-  "homepage": "https://github.com/arvpUofA/web_gui"
+  "homepage": "https://github.com/arvpUofA/web_gui",
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-angular-filesort": "^1.1.1",
+    "gulp-inject": "^1.2.0",
+    "gulp-notify": "^2.2.0",
+    "gulp-webserver": "^0.9.1",
+    "main-bower-files": "^2.7.0"
+  }
 }
