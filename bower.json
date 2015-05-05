@@ -1,0 +1,17 @@
+{
+  "name": "web_gui",
+  "version": "0.0.0",
+  "homepage": "https://github.com/arvpUofA/web_gui",
+  "authors": [
+    "Rumman <rumman.waqar05@gmail.com>"
+  ],
+  "description": "Web Gui for AquaUrsa",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

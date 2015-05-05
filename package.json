@@ -1,0 +1,19 @@
+{
+  "name": "web_gui",
+  "version": "1.0.0",
+  "description": "Web GUI for AquaUrsa",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arvpUofA/web_gui.git"
+  },
+  "author": "Rumman Waqar",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/arvpUofA/web_gui/issues"
+  },
+  "homepage": "https://github.com/arvpUofA/web_gui"
+}
