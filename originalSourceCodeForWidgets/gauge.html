@@ -1,0 +1,74 @@
+<!--setup the html layout for the gauge-->
+<div id="overWrap">
+  <div id="depthText"></div>
+  <div id="depthWrap">
+    <canvas id="arrowCanvas" width="15" height="20"></canvas>
+    <canvas id="rulerCanvas" width="30" height="122"></canvas>
+  </div>
+</div>
+
+
+<!--script for the gauge-->
+
+<script>
+  $(document).ready(function() {
+
+    var canvas = document.getElementById('rulerCanvas');
+    var context = canvas.getContext('2d');
+
+
+    // draw the rectangle in the background
+    drawRectangle(Slider, tick, context, canvas);
+
+
+    var arrowCanvas = document.getElementById('arrowCanvas');
+    var arrowContext = arrowCanvas.getContext('2d');
+    drawArrow(arrowContext, arrowCanvas);
+
+
+    $.fn.moveSlider = function(tickNumber) {
+      
+      // some checks on the incoming parameter
+      if (tickNumber > 12 || tickNumber < 0) {
+        return;
+      }
+
+      // just checking to make sure the decimal number 
+      // is less than three decimal places
+      // if it isn't we round the number
+      if (tickNumber.toString().split(".").length > 1 && tickNumber.toString().split(".")[1].length > 3) {
+        tickNumber = Math.round(tickNumber);        
+      }
+      
+      
+      // update the depth text
+      document.getElementById("depthText").innerHTML = tickNumber + " ft";
+
+      if (tickNumber > Arrow.tickNumber) {
+        // indicator must move down 
+        // y must increase for arrow to go down
+        destY = (tickNumber - Arrow.tickNumber) * tick.intervals;
+      } else if (tickNumber < Arrow.tickNumber) {
+        // indicator must move up
+        // y must decrease for arrow to go up
+        destY = (Arrow.tickNumber - tickNumber) * tick.intervals * (-1);
+      } else {
+        // because we are at the tick we need to be
+        return;
+      }
+
+      // update Arrow ticknumber
+      Arrow.tickNumber = tickNumber;
+      
+      // animate the movement
+      // the 1000 is for how long the animation should take
+      // (I think...)
+      this.animate({
+        marginTop: '+=' + destY + 'px'
+      }, 1000);
+
+    }
+
+  });
+</script>
+

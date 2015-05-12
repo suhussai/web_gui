@@ -1,0 +1,151 @@
+(function() {
+
+
+  var app = angular.module('Interface', []);
+
+
+      
+      gauge.subscribe(function(message) {
+	  if(typeof message.data === 'undefined'){
+              $("#arrowCanvas").moveSlider(0);
+              return;
+	  }
+	  else {
+	      
+	      
+              $("#arrowCanvas").moveSlider(message.data);
+	      console.log('Received message on ' + listener.name + ': ' + message.data);
+	      
+	  }
+
+	 
+	  //	  listener.unsubscribe();
+      });
+      
+
+  });
+
+
+
+
+  app.controller('CompassController', function() {
+    this.degree = 250;
+
+
+    this.clear = function() {
+      ctx.clearRect(0, 0, 60, 50);
+    }
+
+    this.background = function() {
+
+      ctx.beginPath();
+      ctx.strokeStyle = "black";
+      ctx.lineWidth = 1;
+
+      ctx.arc(cx / 2, cy / 2, 20, 0, 2 * Math.PI);
+      ctx.fillStyle = "white";
+      ctx.fill();
+      ctx.stroke();
+
+
+      ctx.beginPath();
+      ctx.arc(cx / 2, cy / 2, 10, 0, 2 * Math.PI);
+      ctx.fillStyle = "grey";
+      ctx.fill();
+      ctx.stroke();
+
+      //marker on the top
+      ctx.beginPath();
+      ctx.moveTo(cx / 2, cy / 2 - 10);
+      ctx.lineTo(cx / 2, cy / 2 - 20);
+      ctx.stroke();
+
+      // position indicator
+
+      //ctx.fill();
+      //ctx.stroke();
+    }
+      this.draw = function(degree) {
+	  
+	  this.clear();
+	  this.background();
+	  radiantLine(cx / 2, cy / 2, 10, 20, degree, "red");
+	  
+      };
+      
+
+      // ROS connection 
+      // Connecting to ROS
+      // -----------------
+      
+      var ros = new ROSLIB.Ros({
+	  url : 'ws://localhost:9090'
+      });
+      
+      ros.on('connection', function() {
+	  console.log('Connected to websocket server.');
+      });
+      
+      ros.on('error', function(error) {
+	  console.log('Error connecting to websocket server: ', error);
+      });
+      
+      ros.on('close', function() {
+	console.log('Connection to websocket server closed.');
+      });
+    
+      
+      
+      var compass = new ROSLIB.Topic({
+	  ros : ros,
+	  name : '/compass',
+	  messageType : 'std_msgs/Int32'
+      });
+
+      var that = this;
+      
+      compass.subscribe(function(message) {
+	  if(typeof message.data === 'undefined'){
+
+	      that.clear();
+	      that.background();
+	      radiantLine(cx / 2, cy / 2, 10, 20, -90, "red");
+	      document.getElementById('degreeText').innerHTML = 0 + ' deg';
+              return;
+	  }
+	  else {
+	      that.clear();
+	      that.background();
+	      radiantLine(cx / 2, cy / 2, 10, 20, message.data - 90, "red");
+	      console.log('Received message on ' + compass.name + ': ' + message.data);
+	      document.getElementById('degreeText').innerHTML = message.data + ' deg';
+	      
+	  }
+
+	 
+	  //	  listener.unsubscribe();
+      });
+
+      
+
+
+
+  });
+
+  app.directive('compass', function() {
+    return {
+      restrict: 'E',
+      scope: {
+        degree: '@'
+      },
+      controller: function() {
+
+
+      },
+      templateUrl: 'compassView.html'
+    };
+  });
+
+
+
+})();
