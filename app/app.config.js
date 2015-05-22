@@ -12,6 +12,12 @@
         controller: 'HomeCtrl',
         controllerAs: 'vm'
       })
+      .state('motorTest', {
+        url: '/motorTest',
+        templateUrl: 'app/motorTest/motorTest.html',
+        controller: 'rosController',
+        controllerAs: 'rosControl'
+      })
   });
 
 } (angular.module('app')) );

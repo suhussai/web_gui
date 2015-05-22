@@ -1,8 +1,8 @@
 (function () {
-  'use strict';
-
-  angular.module('app', [
-    'ui.router',
-  ]);
-
+    'use strict';
+    
+    angular.module('app', [
+	'ui.router',
+    ]);
+    
 })();
