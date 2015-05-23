@@ -15,8 +15,8 @@
       .state('motorTest', {
         url: '/motorTest',
         templateUrl: 'app/motorTest/motorTest.html',
-        controller: 'rosController',
-        controllerAs: 'rosControl'
+        controller: '',
+        controllerAs: ''
       })
   });
 
