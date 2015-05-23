@@ -8,6 +8,9 @@
 		topic: '@',
 		message: '@'
 	    },
+	    // link function takes care of all the computing
+	    // which includes subscribing and displaying the data
+	    // didnt need controller when using this function
 	    link: function(scope, element, attrs) {
 		console.log("subscribing to topic: " + scope.topic);
 		console.log("listening for parameter type: " + scope.parameter);
@@ -32,27 +35,39 @@
 		    console.log('Connection to websocket server closed.');
 		});
 
+
+		// the name of the topic and 
+		// the parameter we are looking for 
+		// in the message can be set via
+		// attributes in the directive declaration
+		
+		// this allows it be robost and 
+		// allows for reuse for all 5 
+		// of the topics we need to 
+		// subscribe to and display data from
+		
 		var motorFeedback = new ROSLIB.Topic({
 		    ros: ros,
 		    name: scope.topic,
 		    messageType: scope.message
 		});
 		
-		scope.val = '';
 		motorFeedback.subscribe(function(message) {
 		    //console.log("We got something from motorFeedback");
 		    //console.log(message[scope.parameter]);
 		    
-		    //
+		    // this function simply updates the p element
+		    // introduced in the template to display 
+		    // the topic name, parameter that we are looking for
+		    // and the value it read in
+		    // the default is 'WAITING...'
 		    
-		    scope.val = message[scope.parameter];
 		    document.getElementById("" + scope.parameter + "Display").innerHTML = "Topic: " + scope.topic + ", Parameter: " + scope.parameter + ", Value: " + message[scope.parameter];
 		});
 		
 		
 	    },
 	    template: "<p id='{{parameter}}Display'> Topic: {{topic}} , Parameter: {{parameter}}, Value: WAITING... </p>"
-	    //	    templateUrl: 'temp.html'
 	};
     });
 
