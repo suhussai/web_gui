@@ -70,8 +70,6 @@
 		    // and the value it read in
 		    // the default is 'WAITING...'
 		    
-//		    document.getElementById("" + scope.parameter + "Display").innerHTML = "Topic: " + scope.topic + ", Parameter: " + scope.parameter + ", Value: " + message[scope.parameter];
-
 		    var pDom = document.getElementById("" + scope.parameter + "Display");
 
 		    if (scope.parameter === "kill") {
@@ -88,48 +86,48 @@
 			    document.getElementById("horRightDisplay").innerHTML = 'horRight: <i class="fa fa-minus-square"></i>' ;
 			    document.getElementById("horLeftDisplay").innerHTML = 'horLeft: <i class="fa fa-minus-square"></i>' ;
 			    document.getElementById("verLeftDisplay").innerHTML = 'verLeft: <i class="fa fa-minus-square"></i>' ;
-			    
 			}
-
-			
 		    }
 
 		    if (scope.topic === "motor/feedback") {
-//			if (simpleLocked) {
-//			    pDom.innerHTML = scope.parameter + ': <i class="fa fa-minus-square"></i>';			    
-//			}
 
-//			else {
-//			    pDom.innerHTML = scope.parameter + ':<input type="text" value="20" class="dial" data-min="-100" data-max="100" readOnly="true" data-width="20px"> ';
+			if (simpleLocked) {
+			    pDom.innerHTML = scope.parameter + ': <i class="fa fa-minus-square"></i>';			    
+			}
 
-			pDom.innerHTML =  '<div style="border: 2px solid red;margin-top:15px;float:left; "class="label label-default" id="' + scope.parameter + 'Label"> '+scope.parameter+': </div> <div style="float:right;"> <input  type="text" class="dial" id="' + scope.parameter+ '" data-min="-100" data-max="100" data-width="30px">  </div>';
-//			pDom.innerHTML =  scope.parameter + ':';
-//			var iDom = document.getElementById(scope.parameter);
-			var iDom = document.getElementById(scope.parameter);
+			else {			    
+			    pDom.innerHTML =  '<div style="border: 2px solid red;margin-top:20px;float:left; "class="label label-default" id="' + scope.parameter + 'Label"> '+scope.parameter+': </div> <div style="float:right;"> <input type="text" class="dial" id="' + scope.parameter+ '" data-min="-100" data-max="100" data-width="30px" readOnly=true>  </div>';
+
+
+			    var iDom = document.getElementById(scope.parameter);			    
+			    if (iDom.value != message[scope.parameter]) {
+				iDom.value= message[scope.parameter];
+			    }
+			    
+			    $(function($) {    
+				$(".dial").knob();			    
+			    });
+			    
+			}			    
+		    }
+		    
+		    if (scope.parameter === "heading") {
+			pDom.innerHTML =  '<div style="border: 2px solid red;margin-top:20px;float:left; "class="label label-default" id="' + scope.parameter + 'Label"> '+scope.parameter+': </div> <div style="float:right;"> <input type="text" class="dial" id="' + scope.parameter+ '" data-min="0" data-max="100" data-width="30px" readOnly=true data-cursor=true data-thickness=.3 data-fgColor="black">  </div>';
+			
+			
+			var iDom = document.getElementById(scope.parameter);			    
 			if (iDom.value != message[scope.parameter]) {
 			    iDom.value= message[scope.parameter];
 			}
-
+			
 			$(function($) {    
 			    $(".dial").knob();			    
 			});
-
-//			}
 		    }
-
-		    if (scope.parameter === "heading") {
-			console.log("set heading stuff");
-			pDom.innerHTML =  '<input type="text" value="75" class="dial"> ';
-		    }
-
 		    
-		    
-//		    document.getElementById("" + scope.parameter + "Display").innerHTML = scope.parameter + ": " + message[scope.parameter];
 		});
 		
 	    },
-//	    template: "<p id='{{parameter}}Display' style='color:green'> Topic: {{topic}} , Parameter: {{parameter}}, Value: WAITING... </p>"
-
 	    template: "<div id='{{parameter}}Display' style='margin:auto;color:green; border: 2px solid red;float:left; ' > {{parameter}}: <i class='fa fa-spinner'></i> </div>"	    
 	};
     });
