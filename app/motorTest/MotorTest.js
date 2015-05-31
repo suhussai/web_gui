@@ -91,7 +91,12 @@
 		    }
 
 		    if (scope.locked && scope.topic === "motor/feedback") {
-			    pDom.innerHTML = scope.parameter + ': <i class="fa fa-minus-square"></i>'
+			    pDom.innerHTML = scope.parameter + ': <i class="fa fa-minus-square"></i>';
+		    }
+
+		    if (scope.parameter === "heading") {
+			console.log("set heading stuff");
+			pDom.innerHTML =  '<input type="text" value="75" class="dial"> ';
 		    }
 
 		    

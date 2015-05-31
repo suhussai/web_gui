@@ -15,6 +15,68 @@
   <base href="/">
   <script type="text/javascript" src="http://cdn.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
   <script type="text/javascript" src="http://cdn.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+  <!--[if IE]><script type="text/javascript" src="excanvas.js"></script><![endif]-->
+  <script src="https://raw.githubusercontent.com/aterrien/jQuery-Knob/master/dist/jquery.knob.min.js"></script>
+
+  <script>
+    $(function($) {
+
+    $(".knob").knob({
+    change : function (value) {
+    //console.log("change : " + value);
+    },
+    release : function (value) {
+    //console.log(this.$.attr('value'));
+    console.log("release : " + value);
+                    },
+                    cancel : function () {
+                        console.log("cancel : ", this);
+                    },
+                    /*format : function (value) {
+                        return value + '%';
+                    },*/
+                    draw : function () {
+
+                        // "tron" case
+                        if(this.$.data('skin') == 'tron') {
+
+                            this.cursorExt = 0.3;
+
+                            var a = this.arc(this.cv)  // Arc
+                                , pa                   // Previous arc
+                                , r = 1;
+
+                            this.g.lineWidth = this.lineWidth;
+
+                            if (this.o.displayPrevious) {
+                                pa = this.arc(this.v);
+                                this.g.beginPath();
+                                this.g.strokeStyle = this.pColor;
+                                this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, pa.s, pa.e, pa.d);
+                                this.g.stroke();
+                            }
+
+                            this.g.beginPath();
+                            this.g.strokeStyle = r ? this.o.fgColor : this.fgColor ;
+                            this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, a.s, a.e, a.d);
+                            this.g.stroke();
+
+                            this.g.lineWidth = 2;
+                            this.g.beginPath();
+                            this.g.strokeStyle = this.o.fgColor;
+                            this.g.arc( this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
+                            this.g.stroke();
+
+                            return false;
+                        }
+                    }
+                });
+
+	      $(".dial").knob();
+
+    });
+  </script>
   
 
   <title ng-bind="title">AquaUrsa</title>
@@ -64,7 +126,9 @@
 	      margin: 10px;
 	      }
 	    </style>
-	    
+
+	    <input type="text" value="75" class="dial">
+            <input class="knob" data-width="100" data-displayInput=false value="35">	    
 	    
 	    <li>
 	      <subscribeto topic="sensors/imu" message="arvp_main/IMU" parameter="heading"  ></subscribeto>
