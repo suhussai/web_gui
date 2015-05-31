@@ -19,65 +19,15 @@
   <!--[if IE]><script type="text/javascript" src="excanvas.js"></script><![endif]-->
   <script src="https://raw.githubusercontent.com/aterrien/jQuery-Knob/master/dist/jquery.knob.min.js"></script>
 
-  <script>
-    $(function($) {
 
-    $(".knob").knob({
-    change : function (value) {
-    //console.log("change : " + value);
-    },
-    release : function (value) {
-    //console.log(this.$.attr('value'));
-    console.log("release : " + value);
-                    },
-                    cancel : function () {
-                        console.log("cancel : ", this);
-                    },
-                    /*format : function (value) {
-                        return value + '%';
-                    },*/
-                    draw : function () {
+    
 
-                        // "tron" case
-                        if(this.$.data('skin') == 'tron') {
-
-                            this.cursorExt = 0.3;
-
-                            var a = this.arc(this.cv)  // Arc
-                                , pa                   // Previous arc
-                                , r = 1;
-
-                            this.g.lineWidth = this.lineWidth;
-
-                            if (this.o.displayPrevious) {
-                                pa = this.arc(this.v);
-                                this.g.beginPath();
-                                this.g.strokeStyle = this.pColor;
-                                this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, pa.s, pa.e, pa.d);
-                                this.g.stroke();
-                            }
-
-                            this.g.beginPath();
-                            this.g.strokeStyle = r ? this.o.fgColor : this.fgColor ;
-                            this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, a.s, a.e, a.d);
-                            this.g.stroke();
-
-                            this.g.lineWidth = 2;
-                            this.g.beginPath();
-                            this.g.strokeStyle = this.o.fgColor;
-                            this.g.arc( this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
-                            this.g.stroke();
-
-                            return false;
-                        }
-                    }
-                });
-
-	      $(".dial").knob();
-
+<script>
+    $(function() {
+        $(".dial").knob();
     });
-  </script>
-  
+</script>
+
 
   <title ng-bind="title">AquaUrsa</title>
 
@@ -113,10 +63,11 @@
   <!-- endbuild -->
 
 
+
   
   <div ng-controller="bottomNavBarController as bNav">
     
-    <div class="navbar navbar-default navbar-fixed-bottom ">
+    <div class="navbar navbar-default navbar-fixed-bottom navbar-inverse">
       <div class="container-fluid">
 	<div class="navbar-header">
 	  <ul class="nav navbar-nav">
@@ -127,8 +78,6 @@
 	      }
 	    </style>
 
-	    <input type="text" value="75" class="dial">
-            <input class="knob" data-width="100" data-displayInput=false value="35">	    
 	    
 	    <li>
 	      <subscribeto topic="sensors/imu" message="arvp_main/IMU" parameter="heading"  ></subscribeto>
@@ -148,29 +97,35 @@
 	    
 	    
 	    <li>
-	      <subscribeto topic="motor/killSig" message="arvp_main/KillSig" parameter="kill"  ></subscribeto>
+	      <subscribeto topic="motor/killSig" message="arvp_main/KillSig" parameter="kill" ></subscribeto>
 	    </li>
 	    
 	    
 	    
 	    <li>
-	      <subscribeto topic="motor/feedback" message="arvp_main/MCRaw" parameter="horLeft" locked="{{unlocked}}" ></subscribeto>
-	      
+	      <subscribeto topic="motor/feedback" message="arvp_main/MCRaw" parameter="horLeft" >
+		<input class="dial" id="horLeft" type="text">	
+	      </subscribeto>
+
 	    </li>
 	    
+<!--
+	      <input type="text" class="dial" id="verRight">	      
+	      <input type="text" class="dial" id="verLeft">	      
+	      <input type="text" class="dial" id="horRight">	      
+
+-->	    
+	    <li>
+	      <subscribeto topic="motor/feedback" message="arvp_main/MCRaw" parameter="verRight" ></subscribeto>
+	    </li>
 	    
 	    <li>
-	      <subscribeto topic="motor/feedback" message="arvp_main/MCRaw" parameter="verRight" locked="{{unlocked}}"></subscribeto>
+	      <subscribeto topic="motor/feedback" message="arvp_main/MCRaw" parameter="verLeft" ></subscribeto>
 	    </li>
 	    
 	    <li>
-	      <subscribeto topic="motor/feedback" message="arvp_main/MCRaw" parameter="verLeft" locked="{{unlocked}}"></subscribeto>
+	      <subscribeto topic="motor/feedback" message="arvp_main/MCRaw" parameter="horRight"></subscribeto>
 	    </li>
-	    
-	    <li>
-	      <subscribeto topic="motor/feedback" message="arvp_main/MCRaw" parameter="horRight" locked="{{unlocked}}"></subscribeto>
-	    </li>
-	    
 	    
 	    
 
