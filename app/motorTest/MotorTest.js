@@ -1,4 +1,8 @@
 (function(module) {
+
+    module.controller('bottomNavBarController',['$scope', function($scope) {
+	$scope.unlocked = true;
+    }]);
     
     module.directive('subscribeto', function() {
 	return {
@@ -6,7 +10,8 @@
 	    scope: {
 		parameter: '@',
 		topic: '@',
-		message: '@'
+		message: '@',
+		locked: '@'
 	    },
 	    // link function takes care of all the computing
 	    // which includes subscribing and displaying the data
@@ -18,7 +23,6 @@
 		// ROS connection 
 		// Connecting to ROS
 		// -----------------
-		
 		var ros = new ROSLIB.Ros({
 		    url : 'ws://localhost:9090'
 		});
@@ -62,12 +66,43 @@
 		    // and the value it read in
 		    // the default is 'WAITING...'
 		    
-		    document.getElementById("" + scope.parameter + "Display").innerHTML = "Topic: " + scope.topic + ", Parameter: " + scope.parameter + ", Value: " + message[scope.parameter];
+//		    document.getElementById("" + scope.parameter + "Display").innerHTML = "Topic: " + scope.topic + ", Parameter: " + scope.parameter + ", Value: " + message[scope.parameter];
+
+		    var pDom = document.getElementById("" + scope.parameter + "Display");
+
+		    
+		    if (scope.parameter === "kill") {
+			// we gotta display lock thingy
+			if (message[scope.parameter] == 0){
+			    pDom.innerHTML = scope.parameter + ': <i class="fa fa-unlock"></i>'
+			}
+			else if (message[scope.parameter] == 1){
+			    pDom.innerHTML = scope.parameter + ': <i class="fa fa-lock"></i>'
+
+
+			    document.getElementById("verRightDisplay").innerHTML = 'verRight: <i class="fa fa-minus-square"></i>' ;
+			    document.getElementById("horRightDisplay").innerHTML = 'horRight: <i class="fa fa-minus-square"></i>' ;
+			    document.getElementById("horLeftDisplay").innerHTML = 'horLeft: <i class="fa fa-minus-square"></i>' ;
+			    document.getElementById("verLeftDisplay").innerHTML = 'verLeft: <i class="fa fa-minus-square"></i>' ;
+			    
+			}
+
+			
+		    }
+
+		    if (scope.locked && scope.topic === "motor/feedback") {
+			    pDom.innerHTML = scope.parameter + ': <i class="fa fa-minus-square"></i>'
+		    }
+
+		    
+		    
+//		    document.getElementById("" + scope.parameter + "Display").innerHTML = scope.parameter + ": " + message[scope.parameter];
 		});
 		
-		
 	    },
-	    template: "<p id='{{parameter}}Display'> Topic: {{topic}} , Parameter: {{parameter}}, Value: WAITING... </p>"
+//	    template: "<p id='{{parameter}}Display' style='color:green'> Topic: {{topic}} , Parameter: {{parameter}}, Value: WAITING... </p>"
+
+	    template: "<div id='{{parameter}}Display' > {{parameter}}: <i class='fa fa-spinner'></i> </div>"	    
 	};
     });
 

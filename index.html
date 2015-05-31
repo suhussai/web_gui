@@ -31,11 +31,7 @@
 
 <body>
   <ui-view></ui-view>
-
-  <div ng-controller="navBarController as nb">
-
-  </div>
-
+ 
   <!-- build:js js/lib.js -->
   <!-- bower:js -->
   <script src="bower_components/jquery/dist/jquery.js"></script>
@@ -53,5 +49,83 @@
   <script src="app/app.config.js"></script>
   <!-- endinject -->
   <!-- endbuild -->
+
+
+  
+  <div ng-controller="bottomNavBarController as bNav">
+    
+    <div class="navbar navbar-default navbar-fixed-bottom ">
+      <div class="container-fluid">
+	<div class="navbar-header">
+	  <ul class="nav navbar-nav">
+	    
+	    <style>
+	      li{
+	      margin: 10px;
+	      }
+	    </style>
+	    
+	    
+	    <li>
+	      <subscribeto topic="sensors/imu" message="arvp_main/IMU" parameter="heading"  ></subscribeto>
+	    </li>
+	    
+	    <li>
+	      <subscribeto topic="sensors/imu" message="arvp_main/IMU" parameter="pitching"></subscribeto>
+	    </li>
+	    
+	    <li>
+	      <subscribeto topic="sensors/imu" message="arvp_main/IMU" parameter="row"></subscribeto>
+	    </li>
+	    
+	    <li>
+	      <subscribeto topic="sensors/depth" message="arvp_main/Depth" parameter="depth"></subscribeto>
+	    </li>
+	    
+	    
+	    <li>
+	      <subscribeto topic="motor/killSig" message="arvp_main/KillSig" parameter="kill"  ></subscribeto>
+	    </li>
+	    
+	    
+	    
+	    <li>
+	      <subscribeto topic="motor/feedback" message="arvp_main/MCRaw" parameter="horLeft" locked="{{unlocked}}" ></subscribeto>
+	      
+	    </li>
+	    
+	    
+	    <li>
+	      <subscribeto topic="motor/feedback" message="arvp_main/MCRaw" parameter="verRight" locked="{{unlocked}}"></subscribeto>
+	    </li>
+	    
+	    <li>
+	      <subscribeto topic="motor/feedback" message="arvp_main/MCRaw" parameter="verLeft" locked="{{unlocked}}"></subscribeto>
+	    </li>
+	    
+	    <li>
+	      <subscribeto topic="motor/feedback" message="arvp_main/MCRaw" parameter="horRight" locked="{{unlocked}}"></subscribeto>
+	    </li>
+	    
+	    
+	    
+
+	  </ul>
+	  
+	</div>
+      </div>
+    </div>
+    
+  </div>
+  
+<!--
+    <subscribeto topic="motor/feedback" message="arvp_main/MCRaw" parameter="horRight"></subscribeto>
+
+
+    
+
+-->
+
+
 </body>
 </html>
