@@ -8,6 +8,7 @@
     }]);
 
     var simpleLocked = true;
+
     
     module.directive('subscribeto', function() {
 	return {
@@ -123,6 +124,12 @@
 			$(function($) {    
 			    $(".dial").knob();			    
 			});
+		    }
+		    
+		    
+		    if (scope.parameter === "depth") {
+//			console.log("changing depth");
+			$("#arrowCanvas").moveSlider(message[scope.parameter]);
 		    }
 		    
 		});
@@ -265,6 +272,39 @@
 	
     });
     
+
+
+
+    module.directive('gauge', function() {
+	return {
+	    restrict: 'E',
+	    scope: {
+		depth: '@'
+	    },
+	    link: function(scope, element, attrs) {
+		
+		$("#arrowCanvas").moveSlider(scope.depth);
+
+		var setDepth = function(depth) {
+		    if(typeof depth === 'undefined'){
+			$("#arrowCanvas").moveSlider(0);
+			return;
+		    }
+		    else {
+			
+			
+			$("#arrowCanvas").moveSlider(depth);
+			
+		    }
+		    
+		    
+		};
+//		setDepth(scope.depth);
+		
+	    },
+	    templateUrl: 'gauge.html'
+	};
+    });
     
     
 }( angular.module('app') ));
