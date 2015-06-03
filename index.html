@@ -20,16 +20,6 @@
   <script src="https://raw.githubusercontent.com/aterrien/jQuery-Knob/master/dist/jquery.knob.min.js"></script>
   <script src="depthGauge.js"></script>
 
-
-    
-
-<script>
-    $(function() {
-        $(".dial").knob();
-    });
-</script>
-
-
   <title ng-bind="title">AquaUrsa</title>
 
   <!-- build:css styles/lib.css -->
@@ -84,12 +74,16 @@
 	      <subscribeto topic="sensors/imu" message="arvp_main/IMU" parameter="heading"  ></subscribeto>
 	    </li>
 	    
-	    <li>
-	      <subscribeto topic="sensors/imu" message="arvp_main/IMU" parameter="pitching"></subscribeto>
-	    </li>
-	    
-	    <li>
-	      <subscribeto topic="sensors/imu" message="arvp_main/IMU" parameter="row"></subscribeto>
+	    <li style="display:block">
+	      <ul style="display:block; padding:0px;">
+		<li>
+		  <subscribeto topic="sensors/imu" message="arvp_main/IMU" parameter="pitch"></subscribeto>
+		</li>
+		
+		<li style="display:block">
+		  <subscribeto topic="sensors/imu" message="arvp_main/IMU" parameter="roll"></subscribeto>
+		</li>
+	      </ul>
 	    </li>
 	    
 	    <li>
@@ -104,7 +98,7 @@
 		margin-top: -10px;
 		}
 		#depthWrap {
-		border: 1px solid black;
+		border: 0px solid black;
 		margin-top: 0px;
 		padding-bottom: 0px;
 		position: relative;
@@ -112,18 +106,19 @@
 		}
 		#depthText {
 		padding-bottom: 2px;
-		font-size: 100%;
+		font-size: 150%;
 		text-align: center;
 		width: 30px;
 		display: inline-block;
 		border: 0px solid black;
+		color:green;
 		}
 		
 		#overWrap {
 		border: 0px solid black;
 		width: 30px;
 		height: 150px;
-		position: absolute;
+		/*position:absolute */
 		}
 		
 	      </style>
@@ -132,9 +127,12 @@
 	      <subscribeto topic="sensors/depth" message="arvp_main/Depth" parameter="depth">
 	      </subscribeto>
 	      
-	      <div style="margin-top:-100px;">
-		<gauge id="gaugeID" depth="6"> </gauge>
+
+	      <div>
+		<gauge id="gaugeID" depth="0"> </gauge>
 	      </div>
+
+
 	    </li>
 	    
 	    

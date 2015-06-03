@@ -78,12 +78,12 @@
 		    if (scope.parameter === "kill") {
 			// we gotta display lock thingy
 			if (message[scope.parameter] == 0){
-			    pDom.innerHTML = scope.parameter + ': <i class="fa fa-unlock"></i>'
+			    pDom.innerHTML = scope.parameter + ': <i class="fa fa-unlock fa-2x"></i>'
 			    simpleLocked = false;
 			    
 			}
 			else if (message[scope.parameter] == 1){
-			    pDom.innerHTML = scope.parameter + ': <i class="fa fa-lock"></i>'
+			    pDom.innerHTML = scope.parameter + ': <i class="fa fa-lock fa-2x"></i>'
 			    simpleLocked = true;
 			    document.getElementById("verRightDisplay").innerHTML = 'verRight: <i class="fa fa-minus-square"></i>' ;
 			    document.getElementById("horRightDisplay").innerHTML = 'horRight: <i class="fa fa-minus-square"></i>' ;
@@ -92,10 +92,10 @@
 			}
 		    }
 
-		    if (scope.topic === "motor/feedback") {
+		    else if (scope.topic === "motor/feedback") {
 
 			if (simpleLocked) {
-			    pDom.innerHTML = scope.parameter + ': <i class="fa fa-minus-square"></i>';			    
+			    pDom.innerHTML = scope.parameter + ': <i class="fa fa-minus-square fa-2x"></i>';			    
 			}
 
 			else {			    
@@ -114,8 +114,8 @@
 			}			    
 		    }
 		    
-		    if (scope.parameter === "heading") {
-			pDom.innerHTML =  '<div style="border: 2px solid red;margin-top:20px;float:left; "class="label label-default" id="' + scope.parameter + 'Label"> '+scope.parameter+': </div> <div style="float:right;"> <input type="text" class="dial" id="' + scope.parameter+ '" data-min="0" data-max="100" data-width="30px" readOnly=true data-cursor=true data-thickness=.3 data-fgColor="black">  </div>';
+		    else if (scope.parameter === "heading") {
+			pDom.innerHTML =  '<div style="border: 2px solid red;margin-top:20px;float:left; "class="label label-default" id="' + scope.parameter + 'Label"> '+scope.parameter+': </div> <div style="float:right;"> <input type="text" class="dial" id="' + scope.parameter+ '" data-min="0" data-max="100" data-width="40px" readOnly=true data-cursor=true data-thickness=.3 data-fgColor="black">  </div>';
 			
 			
 			var iDom = document.getElementById(scope.parameter);			    
@@ -129,15 +129,23 @@
 		    }
 		    
 		    
-		    if (scope.parameter === "depth") {
-//			console.log("changing depth");
+		    else if (scope.parameter === "depth") {
+			//			console.log("changing depth");
+			pDom.innerHTML = "";
 			$("#arrowCanvas").moveSlider(message[scope.parameter]);
+		    }
+		    
+		    else {
+			// default case where we just display the value
+			var number = message[scope.parameter];
+			number = Math.round(number * 10) / 10;
+			pDom.innerHTML = scope.parameter + ": " + parseFloat(number).toFixed(2);
 		    }
 		    
 		});
 		
 	    },
-	    template: "<div id='{{parameter}}Display' style='margin:auto;color:green; border: 2px solid red;float:left; ' > {{parameter}}: <i class='fa fa-spinner'></i> </div>"	    
+	    template: "<div id='{{parameter}}Display' style='margin:auto;color:green; border: 0px solid red;float:left; font-size:20px; ' > {{parameter}}: <i class='fa fa-spinner fa-2x'></i> </div>"	    
 	};
     });
 
@@ -285,6 +293,7 @@
 	    },
 	    link: function(scope, element, attrs) {
 		
+		document.getElementById("depthDisplay").innerHTML = ""; 
 		$("#arrowCanvas").moveSlider(scope.depth);
 
 		var setDepth = function(depth) {
