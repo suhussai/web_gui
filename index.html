@@ -33,6 +33,8 @@
 </head>
 
 <body>
+
+
   <ui-view></ui-view>
  
   <!-- build:js js/lib.js -->
@@ -56,121 +58,119 @@
 
 
   
-  <div ng-controller="bottomNavBarController as bNav">
-    
-    <div class="navbar navbar-default navbar-fixed-bottom navbar-inverse">
-      <div class="container-fluid">
-	<div class="navbar-header">
-	  <ul class="nav navbar-nav">
+  <div class="navbar navbar-default navbar-fixed-bottom navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+	<ul class="nav navbar-nav">
+	  
+	  <style>
+	    li{
+	    margin: 10px;
+	    }
+	  </style>
+	  
+	  
+	  <li>
+	    <subscribeto topic="sensors/imu" message="arvp_main/IMU" parameter="heading"  ></subscribeto>
+	  </li>
+	  
+	  <li style="display:block">
+	    <ul style="display:block; padding:0px;">
+	      <li>
+		<subscribeto topic="sensors/imu" message="arvp_main/IMU" parameter="pitch"></subscribeto>
+	      </li>
+	      
+	      <li style="display:block">
+		<subscribeto topic="sensors/imu" message="arvp_main/IMU" parameter="roll"></subscribeto>
+	      </li>
+	    </ul>
+	  </li>
+	  
+	  <li>
 	    
 	    <style>
-	      li{
-	      margin: 10px;
+	      #rulerCanvas {
+	      border: 0px solid pink;
 	      }
+	      #arrowCanvas {
+	      border: 0px solid pink;
+	      position: absolute;
+	      margin-top: -10px;
+	      }
+	      #depthWrap {
+	      border: 0px solid black;
+	      margin-top: 0px;
+	      padding-bottom: 0px;
+	      position: relative;
+	      overflow: hidden;
+	      }
+	      #depthText {
+	      padding-bottom: 2px;
+	      font-size: 150%;
+	      text-align: center;
+	      width: 30px;
+	      display: inline-block;
+	      border: 0px solid black;
+	      color:green;
+	      }
+	      
+	      #overWrap {
+	      border: 0px solid black;
+	      width: 30px;
+	      height: 150px;
+	      /*position:absolute */
+	      }
+	      
 	    </style>
-
-	    
-	    <li>
-	      <subscribeto topic="sensors/imu" message="arvp_main/IMU" parameter="heading"  ></subscribeto>
-	    </li>
-	    
-	    <li style="display:block">
-	      <ul style="display:block; padding:0px;">
-		<li>
-		  <subscribeto topic="sensors/imu" message="arvp_main/IMU" parameter="pitch"></subscribeto>
-		</li>
-		
-		<li style="display:block">
-		  <subscribeto topic="sensors/imu" message="arvp_main/IMU" parameter="roll"></subscribeto>
-		</li>
-	      </ul>
-	    </li>
-	    
-	    <li>
-
-	      <style>
-		#rulerCanvas {
-		border: 0px solid pink;
-		}
-		#arrowCanvas {
-		border: 0px solid pink;
-		position: absolute;
-		margin-top: -10px;
-		}
-		#depthWrap {
-		border: 0px solid black;
-		margin-top: 0px;
-		padding-bottom: 0px;
-		position: relative;
-		overflow: hidden;
-		}
-		#depthText {
-		padding-bottom: 2px;
-		font-size: 150%;
-		text-align: center;
-		width: 30px;
-		display: inline-block;
-		border: 0px solid black;
-		color:green;
-		}
-		
-		#overWrap {
-		border: 0px solid black;
-		width: 30px;
-		height: 150px;
-		/*position:absolute */
-		}
-		
-	      </style>
-	      
-
-	      <subscribeto topic="sensors/depth" message="arvp_main/Depth" parameter="depth">
-	      </subscribeto>
-	      
-
-	      <div>
-		<gauge id="gaugeID" depth="0"> </gauge>
-	      </div>
-
-
-	    </li>
 	    
 	    
-	    <li>
-	      <subscribeto topic="motor/killSig" message="arvp_main/KillSig" parameter="kill" ></subscribeto>
-	    </li>
-	    
-	    <li>
-	      <subscribeto topic="motor/feedback" message="arvp_main/MCRaw" parameter="horLeft" ></subscribeto>
-
-	    </li>
-
-	    <li>
-	      <subscribeto topic="motor/feedback" message="arvp_main/MCRaw" parameter="verRight" ></subscribeto>
-	    </li>
-	    
-	    <li>
-	      <subscribeto topic="motor/feedback" message="arvp_main/MCRaw" parameter="verLeft" ></subscribeto>
-	    </li>
-	    
-	    <li>
-	      <subscribeto topic="motor/feedback" message="arvp_main/MCRaw" parameter="horRight"></subscribeto>
-	    </li>
+	    <subscribeto topic="sensors/depth" message="arvp_main/Depth" parameter="depth">
+	    </subscribeto>
 	    
 	    
-
-	  </ul>
+	    <div>
+	      <gauge id="gaugeID" depth="0"> </gauge>
+	    </div>
+	    
+	    
+	  </li>
 	  
-	</div>
+	  
+	  <li>
+	    <subscribeto topic="motor/killSig" message="arvp_main/KillSig" parameter="kill" ></subscribeto>
+	  </li>
+	  
+	  <li>
+	    <subscribeto topic="motor/feedback" message="arvp_main/MCRaw" parameter="horLeft" ></subscribeto>
+	    
+	  </li>
+	  
+	  <li>
+	    <subscribeto topic="motor/feedback" message="arvp_main/MCRaw" parameter="verRight" ></subscribeto>
+	  </li>
+	  
+	  <li>
+	    <subscribeto topic="motor/feedback" message="arvp_main/MCRaw" parameter="verLeft" ></subscribeto>
+	  </li>
+	  
+	  <li>
+	    <subscribeto topic="motor/feedback" message="arvp_main/MCRaw" parameter="horRight"></subscribeto>
+	  </li>
+	  
+	  
+	  
+	</ul>
+	
       </div>
     </div>
-    
   </div>
   
+</div>
+
 <!--
     <subscribeto topic="motor/feedback" message="arvp_main/MCRaw" parameter="horRight"></subscribeto>
-
-
+    
+    
     
 
 -->
