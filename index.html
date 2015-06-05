@@ -34,6 +34,51 @@
 
 <body>
 
+  <div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+    <div class="container-fluid">
+      
+      <style>
+
+	/* http://www.w3schools.com/css/tryit.asp?filename=trycss_navbar_horizontal_float */
+	ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	text-align:center;
+	}
+	
+	.leftify {
+	float: right;
+	}
+
+	a {
+	display: block;
+	width: 100px;
+	background-color: white;
+	color: black;
+	}
+      </style>
+
+      <div id="centerME">
+      <ul class="nav nav-pill">
+	  <li class="leftify">
+	    <a href="#/logView">logView </a>
+	  </li>
+
+	  <li class="leftify">
+	    <a href="#/motorTest">motorTest </a>
+	  </li>
+
+	  <li class="leftify">
+	    <a href="#/" class="active">Home </a>
+	  </li>
+
+	</ul>
+      </div>
+      </div>
+  </div>
+
 
   <ui-view></ui-view>
  
@@ -50,6 +95,7 @@
   <!-- inject:js -->
   <script src="app/app.module.js"></script>
   <script src="app/motorTest/MotorTest.js"></script>
+  <script src="app/logView/LogView.js"></script>
   <script src="app/home/Home.js"></script>
   <script src="app/app.config.js"></script>
   <!-- endinject -->
@@ -67,20 +113,23 @@
 	    li{
 	    margin: 10px;
 	    }
+	    .blockify {
+	    display:block;
+	    }
 	  </style>
 	  
 	  
 	  <li>
-	    <subscribeto topic="sensors/imu" message="arvp_main/IMU" parameter="heading"  ></subscribeto>
+	    <subscribeto topic="sensors/imu" message="arvp_main/IMU" parameter="heading"></subscribeto>
 	  </li>
 	  
-	  <li style="display:block">
-	    <ul style="display:block; padding:0px;">
+	  <li class="blockify">
+	    <ul style="padding:0px;" class="blockify">
 	      <li>
 		<subscribeto topic="sensors/imu" message="arvp_main/IMU" parameter="pitch"></subscribeto>
 	      </li>
 	      
-	      <li style="display:block">
+	      <li>
 		<subscribeto topic="sensors/imu" message="arvp_main/IMU" parameter="roll"></subscribeto>
 	      </li>
 	    </ul>
@@ -144,9 +193,9 @@
 	    <subscribeto topic="motor/feedback" message="arvp_main/MCRaw" parameter="horLeft" ></subscribeto>
 	    
 	  </li>
-	  
+
 	  <li>
-	    <subscribeto topic="motor/feedback" message="arvp_main/MCRaw" parameter="verRight" ></subscribeto>
+	    <subscribeto topic="motor/feedback" message="arvp_main/MCRaw" parameter="horRight"></subscribeto>
 	  </li>
 	  
 	  <li>
@@ -154,7 +203,7 @@
 	  </li>
 	  
 	  <li>
-	    <subscribeto topic="motor/feedback" message="arvp_main/MCRaw" parameter="horRight"></subscribeto>
+	    <subscribeto topic="motor/feedback" message="arvp_main/MCRaw" parameter="verRight" ></subscribeto>
 	  </li>
 	  
 	  

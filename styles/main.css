@@ -1,0 +1,8 @@
+body {
+
+/*
+In order to make space for top nav bar.
+http://stackoverflow.com/questions/11124777/twitter-bootstrap-navbar-fixed-top-overlapping-site
+*/
+padding-top: 70px;
+}
