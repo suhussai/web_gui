@@ -18,6 +18,12 @@
         controller: '',
         controllerAs: ''
       })
+      .state('logView', {
+        url: '/logView',
+        templateUrl: 'app/logView/logView.html',
+        controller: '',
+        controllerAs: ''
+      })
   });
 
 } (angular.module('app')) );
