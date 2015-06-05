@@ -1,0 +1,58 @@
+<div ng-controller="LogController">
+
+  <!--  uncomment if you want check boxes to be vertically aligned
+
+	
+	<ul style="display:block; padding:0px;">
+	  <li>
+	    <label> DEBUG: <input type="checkbox" ng-model="DEBUG.selected"  /> </label> 
+	  </li>
+	  <li>
+	    <label> INFO: <input type="checkbox" ng-model="INFO.selected"  /> </label> 
+	  </li>
+	  <li>
+	    <label> WARN: <input type="checkbox" ng-model="WARN.selected"  /> </label> 
+	  </li>
+	  <li>
+	    <label> ERROR: <input type="checkbox" ng-model="ERROR.selected" /> </label> 
+	  </li>
+	  <li>
+	    <label> FATAL: <input type="checkbox" ng-model="FATAL.selected"  /> </label> 
+	    
+	  </li>
+	</ul>
+  -->
+  <ul style="list-style-type:none">
+    <li>
+      <label> DEBUG: <input type="checkbox" ng-model="DEBUG.selected"  /> </label> 
+      &nbsp;
+      &nbsp;
+      <label> INFO: <input type="checkbox" ng-model="INFO.selected"  /> </label> 
+      &nbsp;
+      &nbsp;
+      <label> WARN: <input type="checkbox" ng-model="WARN.selected"  /> </label> 
+      &nbsp;
+      &nbsp;
+      <label> ERROR: <input type="checkbox" ng-model="ERROR.selected" /> </label> 
+      &nbsp;
+      &nbsp;
+      <label> FATAL: <input type="checkbox" ng-model="FATAL.selected"  /> </label> 
+      
+    </li>
+    
+    <li>
+      <button ng-click="showLog()"> submit </button>
+      <button ng-click="clearSelection()"> clear </button>
+      
+    </li>
+  
+  </ul>
+  
+  <div>
+    <h2 style="text-align: center;">Log Output </h2>
+  </div>
+  <div id="logOutput" style="border: 1px black solid;">
+    <!-- log output will be displayed here -->
+  </div>
+  
+</div>
