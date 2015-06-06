@@ -41,17 +41,21 @@
     </li>
     
     <li>
-      <button ng-click="showLog()"> submit </button>
-      <button ng-click="clearSelection()"> clear </button>
-      
+      <button ng-click="showLog()"> Submit Level Restrictions </button> 
+      <button ng-click="clearSelection()"> Clear Levels Restrictions </button>
     </li>
-  
+ 
+    <li>
+      <button ng-click="clearLogOutput()"> Clear Log Output </button>
+    </li>
+ 
+    <li>
+      <p style="text-align: center;font-size:30px;">Log Output </p>
+    </li>
+ 
   </ul>
   
-  <div>
-    <h2 style="text-align: center;">Log Output </h2>
-  </div>
-  <div id="logOutput" style="border: 1px black solid;">
+  <div id="logOutput" style="border: 1px black solid;overflow: auto; height:300px;">
     <!-- log output will be displayed here -->
   </div>
   

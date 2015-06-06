@@ -46,11 +46,11 @@
 	    var pDom = document.getElementById("logOutput");
 
 	    if (message['level'] >= minimumLevel) {
-		console.log("taking all levels greater than " + minimumLevel);
+		//console.log("taking all levels greater than " + minimumLevel);
 		pDom.innerHTML = pDom.innerHTML +  "<p>Level: " + message['level'] + " Message: " + message['msg'] + "</p>";
 	    }
 	    else {
-		console.log("ignoring level:" + message['level'] + " cuz it is less than " + minimumLevel);
+		//console.log("ignoring level:" + message['level'] + " cuz it is less than " + minimumLevel);
 	    }
 
 	});
@@ -61,7 +61,10 @@
 	    }
 	}
 	
-    	
+        $scope.clearLogOutput = function() {
+	    document.getElementById("logOutput").innerHTML = "";
+
+	}    	
 	$scope.showLog = function() {
 	    minimumLevel = 0;
 	    for (var i = 0; i < levels.length; i++){
