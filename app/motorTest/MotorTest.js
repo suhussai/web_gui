@@ -20,7 +20,11 @@
     ros.on('close', function() {
 	console.log('Connection to websocket server closed.');
     });
-    
+
+
+    var subscribeCountMotor = 0;
+    var subscribeMaxMotor = 40;
+
     
     module.directive('subscribeto', function() {
 	return {
@@ -68,6 +72,11 @@
 		    // and the value it read in
 		    // the default is 'WAITING...'
 		    
+	    	    if (subscribeCountMotor < subscribeMaxMotor){
+	    	        subscribeCountMotor = subscribeCountMotor + 1;
+			console.log("Ignoring message");
+	 		return;
+		    }	
 		    var pDom = document.getElementById("" + scope.parameter + "Display");
 
 		    if (scope.parameter === "kill") {

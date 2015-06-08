@@ -16,7 +16,9 @@
 	console.log('Connection to websocket server closed.');
     });
     
-    
+    var subscribeCountLog = 0;
+    var subscribeMaxLog = 40;
+     
     module.controller('LogController', function($scope) {
 	var logTopic = new ROSLIB.Topic({
 	    ros: ros,
@@ -43,6 +45,12 @@
 	
 	
 	logTopic.subscribe(function(message) {
+	    if (subscribeCountLog < subscribeMaxLog){
+		console.log("Ignoring message");
+	        subscribeCountLog = subscribeCountLog + 1;
+	 	return;
+		}	
+
 	    var pDom = document.getElementById("logOutput");
 
 	    if (message['level'] >= minimumLevel) {
