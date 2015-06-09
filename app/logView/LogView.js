@@ -17,7 +17,7 @@
     });
     
     var subscribeCountLog = 0;
-    var subscribeMaxLog = 40;
+    var subscribeMaxLog = 60;
      
     module.controller('LogController', function($scope) {
 	var logTopic = new ROSLIB.Topic({
@@ -45,17 +45,47 @@
 	
 	
 	logTopic.subscribe(function(message) {
-	    if (subscribeCountLog < subscribeMaxLog){
-		console.log("Ignoring message");
-	        subscribeCountLog = subscribeCountLog + 1;
-	 	return;
-		}	
-
 	    var pDom = document.getElementById("logOutput");
 
+	    if (pDom == null) { return;}
+
+
+	    var incomingMessage = "Level: " + message['level'] + " Message: " + message['msg'];
+	    
+	    if (pDom.innerHTML.search(incomingMessage) != -1) {
+
+
+
+		// we let message increment counter to a point
+		// in order to lower rate
+		// but we let it update log if message is new
+		if (subscribeCountLog < subscribeMaxLog) {
+		    //console.log("Ignoring message");
+	            subscribeCountLog = subscribeCountLog + 1;
+	 	    return;
+		}		    
+       		subscribeCountLog = 0;
+		//console.log("subing");
+		
+		
+		// we only increment repeat count when it repeats for a x amount of time
+		// when we have a duplicate message 
+		// we simply increase repetition count
+		var content = pDom.innerHTML;
+		var timesRepeatedIndex = content.indexOf(incomingMessage) + incomingMessage.length + 1 + 1; //plus one for space and (
+		var timesRepeated = Number(content[timesRepeatedIndex]);
+		timesRepeated = timesRepeated + 1;
+		//console.log("replacing");
+		pDom.innerHTML = content.substr(0, timesRepeatedIndex) + timesRepeated.toString() + content.substr(timesRepeatedIndex + timesRepeated.toString().length); 
+//		pDom.innerHTML = pDom.innerHTML.replace(content,content.replace(incomingMessage + " ==" + content.split("==")[1] + "==","==" + timesRepeated + "=="));
+		return;
+		
+		
+	    }
+	    
 	    if (message['level'] >= minimumLevel) {
 		//console.log("taking all levels greater than " + minimumLevel);
-		pDom.innerHTML = pDom.innerHTML +  "<p>Level: " + message['level'] + " Message: " + message['msg'] + "</p>";
+		pDom.innerHTML = pDom.innerHTML +  "<p>Level: " + message['level'] + " Message: " + message['msg'] + " (1)</p>";
 	    }
 	    else {
 		//console.log("ignoring level:" + message['level'] + " cuz it is less than " + minimumLevel);

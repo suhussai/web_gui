@@ -21,11 +21,8 @@
 	console.log('Connection to websocket server closed.');
     });
 
+    var motorMessageMax = 40;
 
-    var subscribeCountMotor = 0;
-    var subscribeMaxMotor = 40;
-
-    
     module.directive('subscribeto', function() {
 	return {
 	    restrict: 'E',
@@ -72,11 +69,20 @@
 		    // and the value it read in
 		    // the default is 'WAITING...'
 		    
-	    	    if (subscribeCountMotor < subscribeMaxMotor){
-	    	        subscribeCountMotor = subscribeCountMotor + 1;
-			console.log("Ignoring message");
-	 		return;
-		    }	
+		    var countDom = document.getElementById(scope.parameter + "Count");
+		    var count = Number(countDom.innerHTML);
+		    
+		    if (count < motorMessageMax) {
+			count = count + 1;
+			countDom.innerHTML = "" + count;
+			//console.log("Currently at " + countDom.innerHTML + " for " + scope.parameter + "Counter");  
+			return;
+		    }
+		    else {
+			countDom.innerHTML = "0";
+		    }
+		    
+		    
 		    var pDom = document.getElementById("" + scope.parameter + "Display");
 
 		    if (scope.parameter === "kill") {
@@ -89,21 +95,23 @@
 			else if (message[scope.parameter] == 1){
 			    pDom.innerHTML = scope.parameter + ': <i class="fa fa-lock fa-2x"></i>'
 			    simpleLocked = true;
-			    document.getElementById("verRightDisplay").innerHTML = 'verRight: <i class="fa fa-minus-square"></i>' ;
-			    document.getElementById("horRightDisplay").innerHTML = 'horRight: <i class="fa fa-minus-square"></i>' ;
-			    document.getElementById("horLeftDisplay").innerHTML = 'horLeft: <i class="fa fa-minus-square"></i>' ;
-			    document.getElementById("verLeftDisplay").innerHTML = 'verLeft: <i class="fa fa-minus-square"></i>' ;
+			    document.getElementById("verRightDisplay").innerHTML = 'verRight: <i class="fa fa-minus-square fa-2x"></i>' ;
+			    document.getElementById("horRightDisplay").innerHTML = 'horRight: <i class="fa fa-minus-square fa-2x"></i>' ;
+			    document.getElementById("horLeftDisplay").innerHTML = 'horLeft: <i class="fa fa-minus-square fa-2x"></i>' ;
+			    document.getElementById("verLeftDisplay").innerHTML = 'verLeft: <i class="fa fa-minus-square fa-2x"></i>' ;
 			}
 		    }
 
 		    else if (scope.topic === "motor/feedback") {
-
-			if (simpleLocked && pDom.innerHTML != scope.parameter + ': <i class="fa fa-minus-square fa-2x"></i>') {
-			    console.log("set locked");
-			    pDom.innerHTML = scope.parameter + ': <i class="fa fa-minus-square fa-2x"></i>';
+			if (simpleLocked) {
+			    if (pDom.innerHTML.search(': <i class="fa fa-minus-square fa-2x"></i>') == -1) {
+				//console.log("set locked");
+				pDom.innerHTML = scope.parameter + ': <i class="fa fa-minus-square fa-2x"></i>';
+			    }
+			    return;
 			}
 
-			else if (pDom.innerHTML != '<div style="border: 0px solid red;margin-top:20px;float:left; "class="label label-default" id="' + scope.parameter + 'Label"> '+scope.parameter+': </div> <div style="float:right;"> <input type="text" class="dial" id="' + scope.parameter+ '" data-min="-100" data-max="100" data-width="35px" readOnly=true>  </div>' ) {
+			else if (pDom.innerHTML.search('data-width="35px" readOnly=true>') == -1) {
 			    
 			    pDom.innerHTML =  '<div style="border: 0px solid red;margin-top:20px;float:left; "class="label label-default" id="' + scope.parameter + 'Label"> '+scope.parameter+': </div> <div style="float:right;"> <input type="text" class="dial" id="' + scope.parameter+ '" data-min="-100" data-max="100" data-width="35px" readOnly=true>  </div>';
 
@@ -112,7 +120,7 @@
 			    if (iDom.value != message[scope.parameter]) {
 				iDom.value= message[scope.parameter];
 			    }
-			    console.log("set it");
+			    //console.log("set knob");
 			    $(function($) {    
 				$(".dial").knob();			    
 			    });
@@ -121,7 +129,7 @@
 		    }
 		    
 		    else if (scope.parameter === "heading") {
-			pDom.innerHTML =  '<div style="border: 2px solid red;margin-top:20px;float:left; "class="label label-default" id="' + scope.parameter + 'Label"> '+scope.parameter+': </div> <div style="float:right;"> <input type="text" class="dial" id="' + scope.parameter+ '" data-min="0" data-max="100" data-width="40px" readOnly=true data-cursor=true data-thickness=.3 data-fgColor="black">  </div>';
+			pDom.innerHTML =  '<div style="border: 0px solid red;margin-top:20px;float:left; "class="label label-default" id="' + scope.parameter + 'Label"> '+scope.parameter+': </div> <div style="float:right;"> <input type="text" class="dial" id="' + scope.parameter+ '" data-min="0" data-max="100" data-width="40px" readOnly=true data-cursor=true data-thickness=.3 data-fgColor="black">  </div>';
 			
 			
 			var iDom = document.getElementById(scope.parameter);			    
@@ -151,7 +159,7 @@
 		});
 		
 	    },
-	    template: "<div id='{{parameter}}Display' style='margin:auto;color:green; border: 0px solid red;float:left; font-size:20px; ' > {{parameter}}: <i class='fa fa-spinner fa-2x'></i> </div>"	    
+	    template: "<div id='{{parameter}}Display' style='margin:auto;color:green; border: 0px solid red;float:left; font-size:20px; ' > {{parameter}}: <i class='fa fa-spinner fa-2x'></i> </div> <div id='{{parameter}}Count'>0</div>"	    
 	};
     });
 
