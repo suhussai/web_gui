@@ -17,7 +17,7 @@
     });
     
     var subscribeCountLog = 0;
-    var subscribeMaxLog = 60;
+    var subscribeMaxLog = 1;
      
     module.controller('LogController', function($scope) {
 	var logTopic = new ROSLIB.Topic({
@@ -51,9 +51,12 @@
 
 
 	    var incomingMessage = "Level: " + message['level'] + " Message: " + message['msg'];
+	    var content = [pDom.innerHTML];
 	    
-	    if (pDom.innerHTML.search(incomingMessage) != -1) {
+	    if (pDom.innerHTML.search(incomingMessage) != -1 && message['level'] >= minimumLevel) {
+		console.log("we caught rep");
 
+		// message is repeated and it falls within level range
 
 
 		// we let message increment counter to a point
@@ -71,25 +74,28 @@
 		// we only increment repeat count when it repeats for a x amount of time
 		// when we have a duplicate message 
 		// we simply increase repetition count
-		var content = pDom.innerHTML;
-		var timesRepeatedIndex = content.indexOf(incomingMessage) + incomingMessage.length + 1 + 1; //plus one for space and (
-		var timesRepeated = Number(content[timesRepeatedIndex]);
+		var timesRepeatedIndex = content[0].indexOf(incomingMessage) + incomingMessage.length + 1 + 1; //plus one for space and (
+		var timesRepeated = parseInt(content[0].substr(timesRepeatedIndex, content[0].indexOf(')', timesRepeatedIndex)));
 		timesRepeated = timesRepeated + 1;
 		//console.log("replacing");
-		pDom.innerHTML = content.substr(0, timesRepeatedIndex) + timesRepeated.toString() + content.substr(timesRepeatedIndex + timesRepeated.toString().length); 
+		// replace entire contents
+		content = [content[0].substr(0, timesRepeatedIndex) + timesRepeated.toString() + content[0].substr(content[0].indexOf(')', timesRepeatedIndex))];
 //		pDom.innerHTML = pDom.innerHTML.replace(content,content.replace(incomingMessage + " ==" + content.split("==")[1] + "==","==" + timesRepeated + "=="));
-		return;
-		
 		
 	    }
 	    
-	    if (message['level'] >= minimumLevel) {
+	    else if (message['level'] >= minimumLevel) {
+		console.log("caught new");
+		// if message falls within level range but is not repeated
 		//console.log("taking all levels greater than " + minimumLevel);
-		pDom.innerHTML = pDom.innerHTML +  "<p>Level: " + message['level'] + " Message: " + message['msg'] + " (1)</p>";
+		content = [content[0] +  "<p>Level: " + message['level'] + " Message: " + message['msg'] + " (1)</p>"];
 	    }
 	    else {
+		console.log("too low new");
 		//console.log("ignoring level:" + message['level'] + " cuz it is less than " + minimumLevel);
 	    }
+
+	    pDom.innerHTML = content.join("");
 
 	});
 
