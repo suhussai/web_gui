@@ -364,8 +364,13 @@
 
 
     function inRange(num1, num2) {
-	
+	console.log(num1);
+	console.log(num2);
+	console.log(num1 - num2);
+	console.log(Math.abs(num1 - num2));
+
 	if (Math.abs(num1 - num2) < 0.2) {
+	    
 	    return true;
 	}
 	return false;
@@ -446,7 +451,7 @@
 			    return;
 			}
 
-			else if (inRange($("."+scope.parameter).val(), message[scope.parameter]) == false) {
+			else if (inRange($("."+scope.parameter).attr('fullValue'), message[scope.parameter]) == false) {
 			    console.log("not in range, updating");
 			    /*
 			    var iDom = document.getElementById(scope.parameter);			    
@@ -455,7 +460,8 @@
 			    }
 			    */
 			    //console.log("set knob");
-			    //$(function($) {    
+			    //$(function($) {
+			    $("."+scope.parameter).attr('fullValue',message[scope.parameter]);
 			    $("."+scope.parameter).val(message[scope.parameter]).trigger("change");
 			   // });
 			    
@@ -481,7 +487,7 @@
 		});
 		
 	    }, // {{parameter}}: spinner <i class='fa fa-spinner fa-2x'> </i> located in first di
-	    template: "<div id='{{parameter}}Display' style='margin:auto;color:green; border: 0px solid red;float:left; font-size:20px; ' >ok  <div style='border: 0px solid red;margin-top:20px;float:left;' class='label label-default' id={{parameter}}Label'> {{parameter}}: </div> <div style='float:right;'> <input type='text' class='knob {{parameter}}' data-min='0' data-max='100' data-width='35px' readOnly=true data-thickness=.3 data-fgColor='black' value='0'>  </div>  </div> <div id='{{parameter}}Count'>0</div>"	    
+	    template: "<div id='{{parameter}}Display' style='margin:auto;color:green; border: 0px solid red;float:left; font-size:20px; ' >ok  <div style='border: 0px solid red;margin-top:20px;float:left;' class='label label-default' id={{parameter}}Label'> {{parameter}}: </div> <div style='float:right;'> <input type='text' class='knob {{parameter}}' data-min='0' data-max='100' data-width='35px' readOnly=true data-thickness=.3 data-fgColor='black' value='0' fullValue='0'>  </div>  </div> <div id='{{parameter}}Count'>0</div>"	    
 	};
     });
 
@@ -543,7 +549,7 @@
 		    
 		    var pDom = document.getElementById("" + scope.parameter + "Display");
 
-		    if (scope.parameter === "heading" && inRange($("."+scope.parameter).val(), message[scope.parameter]) == false) {
+		    if (scope.parameter === "heading" && inRange($("."+scope.parameter).attr('fullValue'), message[scope.parameter]) == false) {
 			    console.log("not in range, updating");
 			// we only change header when we get message for header
 			// and it is not in range with the value that header is already set to
@@ -553,7 +559,10 @@
 			if (iDom.value != message[scope.parameter]) {
 			    iDom.value= message[scope.parameter];
 			}
+
+			$("."+scope.parameter).attr('fullValue');
 			*/
+			$("."+scope.parameter).attr('fullValue',message[scope.parameter]);
 			$("."+scope.parameter).val(message[scope.parameter]).trigger("change");
 		    }
 		    
@@ -562,7 +571,7 @@
 		});
 		
 	    }, // {{parameter}}: spinner <i class='fa fa-spinner fa-2x'> </i> located in first di
-	    template: "<div id='{{parameter}}Display' style='margin:auto;color:green; border: 0px solid red;float:left; font-size:20px; ' >ok  <div style='border: 0px solid red;margin-top:20px;float:left;' class='label label-default' id={{parameter}}Label'> {{parameter}}: </div> <div style='float:right;'> <input type='text' class='knob {{parameter}}' data-min='0' data-max='100' data-width='35px' readOnly=true data-thickness=.3 data-fgColor='black' value='0' data-cursor='true'>  </div>  </div> <div id='{{parameter}}Count'>0</div>"	    
+	    template: "<div id='{{parameter}}Display' style='margin:auto;color:green; border: 0px solid red;float:left; font-size:20px; ' >ok  <div style='border: 0px solid red;margin-top:20px;float:left;' class='label label-default' id={{parameter}}Label'> {{parameter}}: </div> <div style='float:right;'> <input type='text' class='knob {{parameter}}' data-min='0' data-max='100' data-width='35px' readOnly=true data-thickness=.3 data-fgColor='black' value='0' fullValue='0' data-cursor='true'>  </div>  </div> <div id='{{parameter}}Count'>0</div>"	    
 	};
     });
 
