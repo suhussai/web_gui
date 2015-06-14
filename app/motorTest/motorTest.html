@@ -1,29 +1,3 @@
-<div id="subscribeSection">
-  
-  
-  <subscribeto topic="motor/feedback" message="arvp_main/MCRaw" parameter="horLeft"></subscribeto>
-  <subscribeto topic="motor/feedback" message="arvp_main/MCRaw" parameter="horRight"></subscribeto>
-  <subscribeto topic="motor/feedback" message="arvp_main/MCRaw" parameter="verLeft"></subscribeto>
-  <subscribeto topic="motor/feedback" message="arvp_main/MCRaw" parameter="verRight"></subscribeto>
-  <subscribeto topic="motor/killSig" message="arvp_main/KillSig" parameter="kill"></subscribeto>
-  
-  
-  
-  <!-- 
-       uncomment below if you want to see the publish section publish values that will be displayed 
-       by the portion that subscribes. We just change the topic to subscribe to the one we publish to. 
-    -->
-  
-  <!--
-      
-      <subscribeto topic="motor/raw" message="arvp_main/MCRaw" parameter="horLeft"></subscribeto>
-      <subscribeto topic="motor/raw" message="arvp_main/MCRaw" parameter="horRight"></subscribeto>
-      <subscribeto topic="motor/raw" message="arvp_main/MCRaw" parameter="verLeft"></subscribeto>
-      <subscribeto topic="motor/raw" message="arvp_main/MCRaw" parameter="verRight"></subscribeto>
-      -->
-</div>
-
-
 <div id="publishSection">
   <div ng-controller="publishto">
     
