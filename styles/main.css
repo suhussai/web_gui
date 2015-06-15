@@ -1,8 +1,41 @@
 body {
 
-/*
-In order to make space for top nav bar.
-http://stackoverflow.com/questions/11124777/twitter-bootstrap-navbar-fixed-top-overlapping-site
-*/
-padding-top: 70px;
+    /*
+      In order to make space for top nav bar.
+      http://stackoverflow.com/questions/11124777/twitter-bootstrap-navbar-fixed-top-overlapping-site
+      */
+    padding-top: 70px;
 }
+
+#rulerCanvas {
+    border: 0px solid pink;
+}
+#arrowCanvas {
+    border: 0px solid pink;
+    position: absolute;
+    margin-top: -10px;
+}
+#depthWrap {
+    border: 0px solid black;
+    margin-top: 0px;
+    padding-bottom: 0px;
+    position: relative;
+    overflow: hidden;
+}
+#depthText {
+    padding-bottom: 2px;
+    font-size: 100%;
+    text-align: center;
+    width: 30px;
+    display: inline-block;
+    border: 0px solid black;
+    color:green;
+}
+
+#overWrap {
+    border: 0px solid black;
+    width: 30px;
+    height: 150px;
+/*position:absolute */
+}
+
