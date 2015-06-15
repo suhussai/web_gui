@@ -54,7 +54,7 @@
 
     var simpleLocked = true;
     var ros = new ROSLIB.Ros({
-	url : 'ws:/localhost:9090'
+	url : 'ws:/192.168.1.73:9090'
     });
     
     ros.on('connection', function() {
@@ -132,7 +132,6 @@
 		    
 		    
 		    var pDom = document.getElementById("" + scope.parameter + "Display");
-
 		    if (scope.parameter === "kill") {
 			// we gotta display lock thingy
 			if (message[scope.parameter] == 0){
@@ -149,52 +148,18 @@
 			    document.getElementById("verLeftDisplay").innerHTML = 'verLeft: <i class="fa fa-minus-square fa-2x"></i>' ;
 			}
 		    }
-
-		    else if (scope.topic === "motor/feedback") {
-			if (simpleLocked) {
-			    if (pDom.innerHTML.search(': <i class="fa fa-minus-square fa-2x"></i>') == -1) {
-				//console.log("set locked");
-				pDom.innerHTML = scope.parameter + ': <i class="fa fa-minus-square fa-2x"></i>';
-			    }
-			    return;
-			}
-
-			else if (pDom.innerHTML.search('data-width="35px" readOnly=true>') == -1) {
-			    
-			    pDom.innerHTML =  '<div style="border: 0px solid red;margin-top:20px;float:left; "class="label label-default" id="' + scope.parameter + 'Label"> '+scope.parameter+': </div> <div style="float:right;"> <input type="text" class="dial ' + scope.parameter+ ' " data-min="-100" data-max="100" data-width="35px" readOnly=true>  </div>';
-
-
-			    var iDom = document.getElementById(scope.parameter);			    
-			    if ($("."+scope.parameter+"").val != message[scope.parameter]) {
-				$("."+scope.parameter+"").val= message[scope.parameter];
-			    }
-			    //console.log("set knob");
-			    //$(function($) {    
-			    $("."+scope.parameter).val(message[scope.parameter]).trigger("change");
-			   // });
-			    
-			}			    
-		    }
 		    
-		    else if (scope.parameter === "heading") {
-			pDom.innerHTML =  '<div style="border: 0px solid red;margin-top:20px;float:left; "class="label label-default" id="' + scope.parameter + 'Label"> '+scope.parameter+': </div> <div style="float:right;"> <input type="text" class="dial ' + scope.parameter + '" data-min="0" data-max="100" data-width="40px" readOnly=true data-cursor=true data-thickness=.3 data-fgColor="black">  </div>';
+		    else if (scope.parameter === "depth"){
 			
-			
-			var iDom = document.getElementById(scope.parameter);			    
-			if (iDom.value != message[scope.parameter]) {
-			    iDom.value= message[scope.parameter];
+			if (inRange($("."+scope.parameter).attr('fullValue'), message[scope.parameter]) == false) {
+			    $("."+scope.parameter).attr('fullValue' , message[scope.parameter]);
+			    console.log("changing depth");
+			    pDom.innerHTML = "";
+			    $("#arrowCanvas").moveSlider(message[scope.parameter]);
 			}
 			
-			$("."+scope.parameter).val(message[scope.parameter]).trigger("change");
 		    }
-		    
-		    
-		    else if (scope.parameter === "depth") {
-			//			console.log("changing depth");
-			pDom.innerHTML = "";
-			$("#arrowCanvas").moveSlider(message[scope.parameter]);
-		    }
-		    
+
 		    else {
 			// default case where we just display the value
 			var number = message[scope.parameter];
@@ -205,7 +170,7 @@
 		});
 		
 	    },
-	    template: "<div id='{{parameter}}Display' style='margin:auto;color:green; border: 0px solid red;float:left; font-size:20px; ' > {{parameter}}: <i class='fa fa-spinner fa-2x'></i> </div> <div id='{{parameter}}Count'>0</div>"	    
+	    template: "<div id='{{parameter}}Display' class='{{parameter}}' style='margin:auto;color:green; border: 0px solid red;float:left; font-size:20px; ' fullValue='0' > {{parameter}}: <i class='fa fa-spinner fa-2x'></i> </div> <div id='{{parameter}}Count'>0</div>"	    
 	};
     });
 
@@ -364,11 +329,11 @@
 
 
     function inRange(num1, num2) {
-	console.log(num1);
+/*	console.log(num1);
 	console.log(num2);
 	console.log(num1 - num2);
 	console.log(Math.abs(num1 - num2));
-
+*/
 	if (Math.abs(num1 - num2) < 0.2) {
 	    
 	    return true;
@@ -467,21 +432,6 @@
 			    
 			}			    
 		    }
-		    
-		    else if (scope.parameter === "heading" && inRange($("."+scope.parameter).val(), message[scope.parameter]) == false) {
-			    console.log("not in range, updating");
-			// we only change header when we get message for header
-			// and it is not in range with the value that header is already set to
-
-			/*
-			var iDom = document.getElementById(scope.parameter);			    
-			if (iDom.value != message[scope.parameter]) {
-			    iDom.value= message[scope.parameter];
-			}
-			*/
-			$("."+scope.parameter).val(message[scope.parameter]).trigger("change");
-		    }
-		    
 		    
 		    
 		});
